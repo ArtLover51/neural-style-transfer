@@ -1,0 +1,11 @@
+build:
+  gpu: true
+  system_packages:
+    - "ffmpeg"
+  python_version: "3.10"
+  python_requirements:
+    - "torch"
+    - "torchvision"
+    - "torchaudio"
+    - "replicate"
+predict: "neural_style.py:Predictor"  # ✅ Uses your actual file

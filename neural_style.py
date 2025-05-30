@@ -1,24 +1,21 @@
 import os
 import replicate
 
-def run_style_transfer(content_image_url, style_image_url):
-    client = replicate.Client(api_token=os.getenv("REPLICATE_API_TOKEN"))
+class Predictor:
+    def __init__(self):
+        pass  # ✅ Load model here if needed
 
-    prediction = replicate.run(
-    "artlover51/neural-style-transfer:latest",  # ✅ Calls the new clean deployment
-    input={
-        "content_image": "https://your-content-image-url",
-        "style_image": "https://your-style-image-url",
-        "image_size": 512,
-        "num_iterations": 1000
-    }
-)
-
-    if prediction.get("error"):
-        print("Error:", prediction["error"])
-    else:
-        print("Prediction Output:", prediction)
-        return prediction  # ✅ Returns the result for further processing
+    def predict(self, content_image_url, style_image_url):
+        prediction = replicate.run(
+            "artlover51/neural-style-transfer:latest",  # ✅ Use the latest deployed model
+            input={
+                "content_image": content_image_url,
+                "style_image": style_image_url,
+                "image_size": 512,
+                "num_iterations": 1000
+            }
+        )
+        return prediction  # ✅ Returns the generated image
 
 # ✅ Example call with actual URLs (replace dynamically)
 result = run_style_transfer("https://your-content-image-url", "https://your-style-image-url")
