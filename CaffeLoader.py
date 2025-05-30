@@ -1,5 +1,18 @@
 import torch
 import torch.nn as nn
+import os
+import urllib.request
+
+# Define Hugging Face URL for the model weights
+model_url = "https://huggingface.co/PainterlyArt/vgg19-model/resolve/main/vgg19-d01eb7cb.pth"
+local_path = "models/vgg19-d01eb7cb.pth"
+
+# ✅ Download only if the model file is missing
+if not os.path.exists(local_path):
+    print(f"Downloading model weights from {model_url}...")
+    urllib.request.urlretrieve(model_url, local_path)
+    print("Model downloaded successfully!")
+
 
 
 class VGG(nn.Module):
@@ -15,6 +28,7 @@ class VGG(nn.Module):
             nn.Dropout(),
             nn.Linear(4096, num_classes),
         )
+
 
 
 class VGG_SOD(nn.Module):
@@ -245,6 +259,16 @@ def loadCaffemodel(model_file, pooling, use_gpu, disable_check):
     print("Successfully loaded " + str(model_file))
 
     # Maybe convert the model to cuda now, to avoid later issues
+
+# ✅ Updated to load model from the correct local path
+def loadCaffemodel(model_file, pooling, use_gpu, disable_check):
+    cnn, layerList = modelSelector(str(model_file).lower(), pooling)
+
+    # ✅ Ensure the model weights exist and use the downloaded file
+    cnn.load_state_dict(torch.load(local_path), strict=(not disable_check))
+    print("Successfully loaded " + str(local_path))
+
+
     if "c" not in str(use_gpu).lower() or "c" not in str(use_gpu[0]).lower():
         cnn = cnn.cuda()
     cnn = cnn.features
@@ -252,3 +276,6 @@ def loadCaffemodel(model_file, pooling, use_gpu, disable_check):
     print_loadcaffe(cnn, layerList)
 
     return cnn, layerList
+
+
+

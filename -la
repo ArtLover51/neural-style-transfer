@@ -1,0 +1,35 @@
+17a1988 - Madelein Wilkinson - Updated neural_style.py to use correct Replicate model version
+M	neural_style.py
+
+96e579a - Madelein Wilkinson - Updated neural_style.py with deployment fixes
+M	neural_style.py
+
+1158dd3 - ProGamerGov - Add -normalize_gradients parameter
+M	neural_style.py
+
+1a4cf56 - ProGamerGov - Added -normalize_weights parameter
+M	neural_style.py
+
+9827dc5 - ProGamerGov - ModelParallel and Backend Improvements
+M	neural_style.py
+
+954ad7f - ProGamerGov - Remove Trailing Whitespace (#33)
+M	neural_style.py
+
+a7e8bf8 - ProGamerGov - -style_image directory loading JPEG & TIFF Support (#34)
+M	neural_style.py
+
+d318efe - ProGamerGov - User friendliness updates (#30)
+M	neural_style.py
+
+29f8856 - ProGamerGov - Added support for Multi-GPU and CPU, AMD GPUs, and other fixes
+M	neural_style.py
+
+b798e6c - ProGamerGov - Support for 6 new models
+M	neural_style.py
+
+7e4bb8e - ProGamerGov - Style image parameter enhancement (#14)
+M	neural_style.py
+
+6d3b55f - ubuntu - Initial Commit
+A	neural_style.py
