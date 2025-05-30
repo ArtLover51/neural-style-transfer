@@ -225,6 +225,30 @@ path or a full absolute path.
   the best convolution algorithms for your architecture. This will make the first iteration a bit slower and can
   take a bit more memory, but may significantly speed up the cuDNN backend.
 
+  # Neural Style Transfer 🚀
+
+## 📌 Description
+Combining the content of one image with the style of another using deep learning.
+
+## 🔗 Model on Replicate
+[Replicate Model](https://replicate.com/artlover51/neural-style-transfer)
+
+## 🔗 GitHub Repository
+[GitHub Repo](https://github.com/ArtLover51/neural-style-transfer-new)
+
+## 🛠 Deployment Testing
+We're currently testing how to deploy and run this model via Replicate. **Key steps include**:
+- Setting up the correct API authentication ✅
+- Running the model through `replicate.run()` ✅
+- Debugging version errors and permissions 🚀
+- Checking available model versions 🔍
+- Making sure the model outputs correctly 🎨
+
+## 🎯 Next Steps
+- **Confirm model accessibility**
+- **Verify correct image inputs**
+- **Optimize API calls for production use**
+
 ## Frequently Asked Questions
 
 **Problem:** The program runs out of memory and dies
