@@ -3,6 +3,6 @@ build:
   system_packages:
     - ffmpeg
   python_version: "3.10"
-  python_requirements: "torch torchvision torchaudio replicate"  # ✅ Converted to a single string
+  python_requirements: requirements.txt  # ✅ No quotes, just the filename
 
-predict: "neural_style.py:Predictor"  # ✅ Enclosed in quotes for proper YAML interpretation
+predict: neural_style.py:Predictor  # ✅ Properly formatted reference
