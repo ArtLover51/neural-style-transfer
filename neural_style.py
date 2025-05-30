@@ -5,14 +5,14 @@ def run_style_transfer(content_image_url, style_image_url):
     client = replicate.Client(api_token=os.getenv("REPLICATE_API_TOKEN"))
 
     prediction = replicate.run(
-        "artlover51/updated",
-        input={
-            "content_image": content_image_url,
-            "style_image": style_image_url,
-            "image_size": 512,
-            "num_iterations": 1000
-        }
-    )
+    "artlover51/neural-style-transfer:af52e094",  # ✅ Uses the actual model name and version
+    input={
+        "content_image": "https://your-content-image-url",
+        "style_image": "https://your-style-image-url",
+        "image_size": 512,
+        "num_iterations": 1000
+    }
+)
 
     if prediction.get("error"):
         print("Error:", prediction["error"])
