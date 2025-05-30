@@ -1,13 +1,8 @@
 build:
   gpu: true
   system_packages:
-    - ffmpeg  # ✅ No unnecessary quotes
+    - ffmpeg
   python_version: "3.10"
-  python_requirements:
-    - torch
-    - torchvision
-    - torchaudio
-    - replicate
+  python_requirements: "torch torchvision torchaudio replicate"  # ✅ Converted to a single string
 
-predict: neural_style.py:Predictor  # ✅ Correct format without quotation marks
-
+predict: "neural_style.py:Predictor"  # ✅ Enclosed in quotes for proper YAML interpretation
