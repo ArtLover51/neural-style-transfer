@@ -1,3 +1,6 @@
 replicate
 numpy
 pillow
+torch
+torchvision
+torchaudio
