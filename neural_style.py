@@ -1,13 +1,14 @@
-import os
 import replicate
+import cog  # ✅ Import Cog for type hints
 
 class Predictor:
     def __init__(self):
         pass  # ✅ Load model here if needed
 
-    def predict(self, content_image_url, style_image_url):
+    def predict(self, content_image_url: str, style_image_url: str) -> cog.File:
+        """Runs the style transfer and returns the generated image."""
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:latest",  # ✅ Use the latest deployed model
+            "artlover51/neural-style-transfer:latest",
             input={
                 "content_image": content_image_url,
                 "style_image": style_image_url,
@@ -15,7 +16,7 @@ class Predictor:
                 "num_iterations": 1000
             }
         )
-        return prediction  # ✅ Returns the generated image
+        return prediction  # ✅ Ensures output is a file Replicate can process
 
 # ✅ Example call with actual URLs (replace dynamically)
 # ✅ Create an instance of the Predictor class
