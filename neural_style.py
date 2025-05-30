@@ -18,7 +18,12 @@ class Predictor:
         return prediction  # ✅ Returns the generated image
 
 # ✅ Example call with actual URLs (replace dynamically)
-result = run_style_transfer("https://your-content-image-url", "https://your-style-image-url")
+# ✅ Create an instance of the Predictor class
+predictor = Predictor()
+
+# ✅ Corrected function call—use predictor.predict instead of run_style_transfer
+result = predictor.predict("https://your-content-image-url", "https://your-style-image-url")
+
 print("Final Output:", result)
 
 model_url = "https://huggingface.co/PainterlyArt/vgg19-model/resolve/main/vgg19-d01eb7cb.pth"
