@@ -1,21 +1,28 @@
 import os
 import replicate
 
-# ✅ Initialize the client with the correct API token
-client = replicate.Client(api_token=os.getenv("REPLICATE_API_TOKEN"))
+def run_style_transfer(content_image_url, style_image_url):
+    client = replicate.Client(api_token=os.getenv("REPLICATE_API_TOKEN"))
 
-# ✅ Retrieve the latest version of the model
-model = client.models.get("artlover51/neural-style-transfer")
-print("Model:", model)  # This should print details if the model loads correctly
+    prediction = replicate.run(
+        "artlover51/updated",
+        input={
+            "content_image": content_image_url,
+            "style_image": style_image_url,
+            "image_size": 512,
+            "num_iterations": 1000
+        }
+    )
 
-# ✅ Use the correct `replicate.run()` syntax with the model version
-prediction = replicate.run(
-    "artlover51/neural-style-transfer:af52e094",  # ✅ Ensures you're using the latest model version
-    input={"image": "https://replicate.com/artlover51/neural-style-transfer/edit"}
-)
-print("Prediction:", prediction)
-import urllib.request
-import os
+    if prediction.get("error"):
+        print("Error:", prediction["error"])
+    else:
+        print("Prediction Output:", prediction)
+        return prediction  # ✅ Returns the result for further processing
+
+# ✅ Example call with actual URLs (replace dynamically)
+result = run_style_transfer("https://your-content-image-url", "https://your-style-image-url")
+print("Final Output:", result)
 
 model_url = "https://huggingface.co/PainterlyArt/vgg19-model/resolve/main/vgg19-d01eb7cb.pth"
 local_path = "models/vgg19-d01eb7cb.pth"
