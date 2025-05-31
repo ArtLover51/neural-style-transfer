@@ -5,17 +5,4 @@ build:
   python_version: "3.10"
   python_requirements: requirements.txt
 
-predict: neural_style.py:Predictor
-
-inputs:
-  content_image_url:
-    type: string
-    description: "URL of the content image"
-  style_image_url:
-    type: string
-    description: "URL of the style image"
-
-outputs:
-  output_image_url:
-    type: string
-    description: "URL of the generated style-transferred image"
+predict: neural_style.py:Predictor  # ✅ Properly formatted reference
