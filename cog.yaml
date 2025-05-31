@@ -1,7 +1,7 @@
 build:
   system_packages:
     - ffmpeg
-    - libjpeg-turbo-dev  # ✅ Ensures image processing works
+    - libjpeg-dev  # ✅ Corrected package name
     - libpng-dev
   python_version: "3.10"
   python_requirements: requirements.txt
