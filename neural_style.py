@@ -1,6 +1,12 @@
 import replicate
 import cog
-import replicate
+import urllib.request
+import os
+import copy
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision.transforms as transforms
 
 class Predictor:
     def __init__(self):
@@ -31,7 +37,7 @@ class Predictor:
                 "tv_weight": tv_weight,
                 "num_iterations": num_iterations,
                 "init": init,
-                "init_image": init_image,
+                "init_image": init_image if init_image else None,
                 "optimizer": optimizer,
                 "learning_rate": learning_rate,
                 "normalize_gradients": normalize_gradients
@@ -39,28 +45,21 @@ class Predictor:
         )
         return prediction
 
-# ✅ Example call with actual URLs (replace dynamically)
-# ✅ Create an instance of the Predictor class
-predictor = Predictor()
+# ✅ Create an instance of the Predictor class & run a prediction
+if __name__ == "__main__":
+    predictor = Predictor()
+    result = predictor.predict("https://your-content-image-url", "https://your-style-image-url")
+    print("Final Output:", result)
 
-# ✅ Corrected function call—use predictor.predict instead of run_style_transfer
-result = predictor.predict("https://your-content-image-url", "https://your-style-image-url")
-
-print("Final Output:", result)
-
+# ✅ Define model download parameters
 model_url = "https://huggingface.co/PainterlyArt/vgg19-model/resolve/main/vgg19-d01eb7cb.pth"
 local_path = "models/vgg19-d01eb7cb.pth"
 
-# ✅ Download only if missing
+# ✅ Download model weights if missing
 if not os.path.exists(local_path):
     print(f"Downloading model weights from {model_url}...")
     urllib.request.urlretrieve(model_url, local_path)
     print("Model downloaded successfully!")
-import copy
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torchvision.transforms as transforms
 
 from PIL import Image
 from CaffeLoader import loadCaffemodel, ModelParallel
