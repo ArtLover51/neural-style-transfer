@@ -3,37 +3,39 @@ import replicate
 
 class Predictor(BasePredictor):
     def predict(
-        self, 
-        content_image: Path = Input(description="Content image."),  # ✅ Use Path = Input() for file support
-        style_image: Path = Input(description="Style image."),  # ✅ Enable drag-and-drop upload
-        content_weight: float = Input(default=5.0, description="Weight for content image."),
-        style_weight: float = Input(default=100.0, description="Weight for style image."),
-        tv_weight: float = Input(default=0.001, description="Total variation weight."),
-        num_iterations: int = Input(default=1000, description="Number of iterations."),
-        init: str = Input(default="random", description="Initialization type."),
-        init_image: Path = Input(default=None, description="Optional initial image."),  # ✅ Ensure file support
-        optimizer: str = Input(default="lbfgs", description="Optimizer to use."),
-        learning_rate: float = Input(default=10.0, description="Learning rate."),
-        normalize_gradients: bool = Input(default=False, description="Normalize gradients.")
-    ) -> Path:
-        """Runs style transfer using uploaded image files."""
-        prediction = replicate.run(
-            "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
-            input={
-                "content_image": content_image,
-                "style_image": style_image,
-                "content_weight": content_weight,
-                "style_weight": style_weight,
-                "tv_weight": tv_weight,
-                "num_iterations": num_iterations,
-                "init": init,
-                "init_image": init_image if init_image else "",  # ✅ Pass empty string instead of None
-                "optimizer": optimizer,
-                "learning_rate": learning_rate,
-                "normalize_gradients": normalize_gradients
-            }
-        )
-        return prediction  # ✅ Returns generated image as a file
+    self, 
+    content_image: Path,  # ✅ Keep Path, but remove Input() wrapper
+    style_image: Path,  # ✅ Keep Path, but remove Input() wrapper
+    content_weight: float = 5.0,
+    style_weight: float = 100.0,
+    tv_weight: float = 0.001,
+    num_iterations: int = 1000,
+    init: str = "random",
+    init_image: Path = None,  # ✅ Keep Path type
+    optimizer: str = "lbfgs",
+    learning_rate: float = 10.0,
+    normalize_gradients: bool = False
+) -> Path:
+    """Runs style transfer using uploaded image files."""
+    
+    # ✅ Convert Path objects to strings so Replicate can handle them properly
+    prediction = replicate.run(
+        "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
+        input={
+            "content_image": str(content_image),  # ✅ Convert Path to string
+            "style_image": str(style_image),  # ✅ Convert Path to string
+            "content_weight": content_weight,
+            "style_weight": style_weight,
+            "tv_weight": tv_weight,
+            "num_iterations": num_iterations,
+            "init": init,
+            "init_image": str(init_image) if init_image else "",  # ✅ Ensure init_image is correctly formatted
+            "optimizer": optimizer,
+            "learning_rate": learning_rate,
+            "normalize_gradients": normalize_gradients
+        }
+    )
+    return prediction
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
