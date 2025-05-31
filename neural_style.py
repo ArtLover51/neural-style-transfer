@@ -28,21 +28,21 @@ class Predictor:
     ) -> cog.File:
         """Runs style transfer using the provided images and optimization settings."""
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:d6e96fae",
-            input={
-                "content_image": content_image,
-                "style_image": style_image,
-                "content_weight": content_weight,
-                "style_weight": style_weight,
-                "tv_weight": tv_weight,
-                "num_iterations": num_iterations,
-                "init": init,
-                "init_image": init_image if init_image else None,
-                "optimizer": optimizer,
-                "learning_rate": learning_rate,
-                "normalize_gradients": normalize_gradients
-            }
-        )
+    "artlover51/neural-style-transfer:d6e96fae86152137b993e12acc13832e7c5e351555bd25afb76da86cbf9fc597",  # ✅ Use full version ID
+    input={
+        "content_image": content_image,
+        "style_image": style_image,
+        "content_weight": content_weight,
+        "style_weight": style_weight,
+        "tv_weight": tv_weight,
+        "num_iterations": num_iterations,
+        "init": init,
+        "init_image": init_image if init_image else None,
+        "optimizer": optimizer,
+        "learning_rate": learning_rate,
+        "normalize_gradients": normalize_gradients
+    }
+)
         return prediction
 
 # ✅ Create an instance of the Predictor class & run a prediction
