@@ -9,29 +9,29 @@ class Predictor(BasePredictor):
         output_size: int = Input(choices=[512, 1024], default=512, description="Maximum side length of generated image."),
         optimizer: str = Input(choices=["lbfgs", "adam"], default="lbfgs", description="Optimization algorithm."),
         style_scale: float = Input(default=1.0, description="Scale at which style features are extracted (slider)."),
-        original_colors: bool = Input(choices=[False, True], default=True, description="Preserve original content image colors."),
+        original_colors: bool = Input(default=True, description="Preserve original content image colors."),
         num_iterations: int = Input(default=1000, description="Number of optimization iterations."),
         init: str = Input(choices=["random", "image"], default="random", description="Initialization method."),
         init_image: Path = Input(default=None, description="User-specified initialization image.")
     ) -> Path:
         """Runs style transfer using uploaded image files."""
 
-# ✅ Convert `Input()` values to standard types before passing them into `replicate.run()`
-prediction = replicate.run(
-    "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",
-    input={
-        "content_image": str(content_image),
-        "style_image": str(style_image),
-        "output_size": int(output_size.default),  # ✅ Extract the default value properly
-        "optimizer": str(optimizer.default),  # ✅ Ensure optimizer is correctly formatted
-        "style_scale": float(style_scale.default),  # ✅ Convert style_scale correctly
-        "original_colors": bool(original_colors.default),  # ✅ Fix: Now correctly inside the dictionary
-        "num_iterations": int(num_iterations.default),
-        "init": str(init.default),
-        "init_image": str(init_image) if init_image else "",  # ✅ Prevent passing None directly
-    }
-)
-        return prediction
+        prediction = replicate.run(
+            "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",
+            input={
+                "content_image": str(content_image),
+                "style_image": str(style_image),
+                "output_size": int(output_size.default),
+                "optimizer": str(optimizer.default),
+                "style_scale": float(style_scale.default),
+                "original_colors": bool(original_colors.default),
+                "num_iterations": int(num_iterations.default),
+                "init": str(init.default),
+                "init_image": str(init_image) if init_image else "",
+            }
+        )
+
+        return prediction  # ✅ Ensure this is properly indented inside the function
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
