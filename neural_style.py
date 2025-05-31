@@ -3,39 +3,38 @@ import replicate
 
 class Predictor(BasePredictor):
     def predict(
-    self, 
-    content_image: Path,  # ✅ Keep Path, but remove Input() wrapper
-    style_image: Path,  # ✅ Keep Path, but remove Input() wrapper
-    content_weight: float = 5.0,
-    style_weight: float = 100.0,
-    tv_weight: float = 0.001,
-    num_iterations: int = 1000,
-    init: str = "random",
-    init_image: Path = None,  # ✅ Keep Path type
-    optimizer: str = "lbfgs",
-    learning_rate: float = 10.0,
-    normalize_gradients: bool = False
-) -> Path:
-    """Runs style transfer using uploaded image files."""
-    
-    # ✅ Convert Path objects to strings so Replicate can handle them properly
-    prediction = replicate.run(
-        "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
-        input={
-            "content_image": str(content_image),  # ✅ Convert Path to string
-            "style_image": str(style_image),  # ✅ Convert Path to string
-            "content_weight": content_weight,
-            "style_weight": style_weight,
-            "tv_weight": tv_weight,
-            "num_iterations": num_iterations,
-            "init": init,
-            "init_image": str(init_image) if init_image else "",  # ✅ Ensure init_image is correctly formatted
-            "optimizer": optimizer,
-            "learning_rate": learning_rate,
-            "normalize_gradients": normalize_gradients
-        }
-    )
-    return prediction
+        self, 
+        content_image: Path,
+        style_image: Path,
+        content_weight: float = 5.0,
+        style_weight: float = 100.0,
+        tv_weight: float = 0.001,
+        num_iterations: int = 1000,
+        init: str = "random",
+        init_image: Path = None,
+        optimizer: str = "lbfgs",
+        learning_rate: float = 10.0,
+        normalize_gradients: bool = False
+    ) -> Path:
+        """Runs style transfer using uploaded image files."""  # ✅ This docstring is now correctly indented
+
+        prediction = replicate.run(
+            "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
+            input={
+                "content_image": str(content_image),  
+                "style_image": str(style_image),  
+                "content_weight": content_weight,
+                "style_weight": style_weight,
+                "tv_weight": tv_weight,
+                "num_iterations": num_iterations,
+                "init": init,
+                "init_image": str(init_image) if init_image else "",
+                "optimizer": optimizer,
+                "learning_rate": learning_rate,
+                "normalize_gradients": normalize_gradients
+            }
+        )
+        return prediction
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
