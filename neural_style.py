@@ -18,19 +18,19 @@ class Predictor(BasePredictor):
 
         # ✅ Convert `Input()` values to standard types before passing them into `replicate.run()`
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",
-            input={
-                "content_image": str(content_image),  # ✅ Convert Path object to string
-                "style_image": str(style_image),
-                "output_size": int(output_size),  # ✅ Convert input to an integer
-                "optimizer": str(optimizer),  # ✅ Convert input to string
-                "style_scale": float(style_scale),  # ✅ Ensure float values are converted correctly
-                "original_colors": bool(original_colors),  # ✅ Convert boolean values properly
-                "num_iterations": int(num_iterations),
-                "init": str(init),
-                "init_image": str(init_image) if init_image else "",  # ✅ Prevent passing None directly
-            }
-        )
+    "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",
+    input={
+        "content_image": str(content_image),
+        "style_image": str(style_image),
+        "output_size": int(output_size.default),  # ✅ Extract the default value properly
+        "optimizer": str(optimizer.default),  # ✅ Ensure optimizer is correctly formatted
+        "style_scale": float(style_scale.default),  # ✅ Convert style_scale correctly
+        "original_colors": bool(original_colors.default),  # ✅ Make sure this is a valid boolean
+        "num_iterations": int(num_iterations.default),
+        "init": str(init.default),
+        "init_image": str(init_image) if init_image else "",  # ✅ Prevent passing None directly
+    }
+)
         return prediction
 
 # ✅ Create an instance of the Predictor class & run a prediction
