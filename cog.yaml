@@ -1,0 +1,9 @@
+build:
+  system_packages:
+    - ffmpeg
+    - libjpeg-dev  # ✅ Corrected package name
+    - libpng-dev
+  python_version: "3.10"
+  python_requirements: requirements.txt
+
+predict: neural_style.py:Predictor
