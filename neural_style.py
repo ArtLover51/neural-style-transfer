@@ -10,32 +10,25 @@ class Predictor(BasePredictor):
         optimizer: str = Input(choices=["lbfgs", "adam"], default="lbfgs", description="Optimization algorithm."),
         style_scale: float = Input(default=1.0, description="Scale at which style features are extracted (slider)."),
         original_colors: bool = Input(choices=[False, True], default=True, description="Preserve original content image colors."),
-        content_weight: float = Input(default=5e0, description="Content reconstruction weight."),
-        style_weight: float = Input(default=1e2, description="Style reconstruction weight."),
-        tv_weight: float = Input(default=1e-3, description="Total variation regularization weight."),
         num_iterations: int = Input(default=1000, description="Number of optimization iterations."),
         init: str = Input(choices=["random", "image"], default="random", description="Initialization method."),
-        init_image: Path = Input(default=None, description="User-specified initialization image."),
-        normalize_gradients: bool = Input(default=False, description="L1-normalize gradients from each layer.")
+        init_image: Path = Input(default=None, description="User-specified initialization image.")
     ) -> Path:
         """Runs style transfer using uploaded image files."""
 
+        # ✅ Convert `Input()` values to standard types before passing them into `replicate.run()`
         prediction = replicate.run(
             "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",
             input={
-                "content_image": str(content_image),
+                "content_image": str(content_image),  # ✅ Convert Path object to string
                 "style_image": str(style_image),
-                "output_size": output_size,  
-                "optimizer": optimizer,  
-                "style_scale": style_scale,  
-                "original_colors": original_colors,  
-                "content_weight": content_weight,
-                "style_weight": style_weight,
-                "tv_weight": tv_weight,
-                "num_iterations": num_iterations,
-                "init": init,
-                "init_image": str(init_image) if init_image else "",
-                "normalize_gradients": normalize_gradients
+                "output_size": int(output_size),  # ✅ Convert input to an integer
+                "optimizer": str(optimizer),  # ✅ Convert input to string
+                "style_scale": float(style_scale),  # ✅ Ensure float values are converted correctly
+                "original_colors": bool(original_colors),  # ✅ Convert boolean values properly
+                "num_iterations": int(num_iterations),
+                "init": str(init),
+                "init_image": str(init_image) if init_image else "",  # ✅ Prevent passing None directly
             }
         )
         return prediction
