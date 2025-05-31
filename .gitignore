@@ -10,3 +10,4 @@ models/
 __pycache__/
 myenv_new/
 
+.cog/openapi_schema.json
