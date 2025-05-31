@@ -4,36 +4,64 @@ import replicate
 class Predictor(BasePredictor):
     def predict(
         self, 
-        content_image: Path,
-        style_image: Path,
-        content_weight: float = 5.0,
-        style_weight: float = 100.0,
-        tv_weight: float = 0.001,
-        num_iterations: int = 1000,
-        init: str = "random",
-        init_image: Path = None,
-        optimizer: str = "lbfgs",
-        learning_rate: float = 10.0,
-        normalize_gradients: bool = False
+        content_image: Path = Input(description="Content image."),
+        style_image: Path = Input(description="Style image."),
+        output_size: int = Input(choices=[512, 1024], default=512, description="Output image size."),
+        image_size: int = Input(default=512, description="Maximum side length (pixels) of generated image."),
+        style_blend_weights: str = Input(default="", description="Weights for blending multiple style images."),
+        gpu: str = Input(default="c", description="Set GPU ID or CPU mode."),
+        optimizer: str = Input(choices=["lbfgs", "adam"], default="lbfgs", description="Optimizer algorithm."),
+        learning_rate: float = Input(default=1e1, description="Learning rate for ADAM optimizer."),
+        model_file: str = Input(default="", description="Path to VGG Caffe model file."),
+        pooling: str = Input(choices=["max", "avg"], default="max", description="Pooling type."),
+        seed: int = Input(default=-1, description="Seed for repeatable results."),
+        content_layers: str = Input(default="relu4_2", description="Content reconstruction layers."),
+        style_layers: str = Input(default="relu1_1,relu2_1,relu3_1,relu4_1,relu5_1", description="Style reconstruction layers."),
+        style_scale: float = Input(default=1.0, description="Scale at which style features are extracted."),
+        original_colors: bool = Input(default=False, description="Preserve content image colors."),
+        output_image: str = Input(default="out.png", description="Name of the output image file."),
+        print_iter: int = Input(default=10, description="Print progress every X iterations."),
+        save_iter: int = Input(default=100, description="Save image every X iterations."),
+        content_weight: float = Input(default=5e0, description="Content reconstruction weight."),
+        style_weight: float = Input(default=1e2, description="Style reconstruction weight."),
+        tv_weight: float = Input(default=1e-3, description="Total variation regularization weight."),
+        num_iterations: int = Input(default=1000, description="Number of optimization iterations."),
+        init: str = Input(choices=["random", "image"], default="random", description="Initialization method."),
+        init_image: Path = Input(default=None, description="User-specified initialization image."),
+        normalize_gradients: bool = Input(default=False, description="L1-normalize gradients from each layer.")
     ) -> Path:
         """Runs style transfer using uploaded image files."""  # ✅ This docstring is now correctly indented
 
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
-            input={
-                "content_image": str(content_image),  
-                "style_image": str(style_image),  
-                "content_weight": content_weight,
-                "style_weight": style_weight,
-                "tv_weight": tv_weight,
-                "num_iterations": num_iterations,
-                "init": init,
-                "init_image": str(init_image) if init_image else "",
-                "optimizer": optimizer,
-                "learning_rate": learning_rate,
-                "normalize_gradients": normalize_gradients
-            }
-        )
+    "artlover51/neural-style-transfer:84a10aeae48693c81a6021a461935209f91bd41ad1473b1890b2b12bb9eaad38",  # ✅ Updated version
+    input={
+        "content_image": str(content_image),
+        "style_image": str(style_image),
+        "output_size": output_size,  # ✅ Now users can choose output size
+        "image_size": image_size,  # ✅ Adding max side length option
+        "style_blend_weights": style_blend_weights,  # ✅ Style blending weights
+        "gpu": gpu,  # ✅ Set GPU or CPU mode
+        "content_weight": content_weight,
+        "style_weight": style_weight,
+        "tv_weight": tv_weight,
+        "num_iterations": num_iterations,
+        "init": init,
+        "init_image": str(init_image) if init_image else "",
+        "optimizer": optimizer,  # ✅ Users can now choose lbfgs or adam
+        "learning_rate": learning_rate,  # ✅ Learning rate option
+        "normalize_gradients": normalize_gradients,
+        "output_image": output_image,  # ✅ Output image filename selection
+        "print_iter": print_iter,  # ✅ Printing progress interval
+        "save_iter": save_iter,  # ✅ Save interval
+        "content_layers": content_layers,  # ✅ Content layers
+        "style_layers": style_layers,  # ✅ Style layers
+        "style_scale": style_scale,  # ✅ Style scaling
+        "original_colors": original_colors,  # ✅ Preserve content colors
+        "model_file": model_file,  # ✅ Custom model selection
+        "pooling": pooling,  # ✅ Pooling choice (max or avg)
+        "seed": seed,  # ✅ Set seed for repeatable results
+    }
+)
         return prediction
 
 # ✅ Create an instance of the Predictor class & run a prediction
