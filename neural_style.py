@@ -1,12 +1,5 @@
-import replicate
 import cog
-import urllib.request
-import os
-import copy
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torchvision.transforms as transforms
+import replicate
 
 class Predictor:
     def __init__(self):
@@ -14,36 +7,36 @@ class Predictor:
 
     def predict(
         self, 
-        content_image: cog.File, 
-        style_image: cog.File, 
+        content_image_url: str,  # ✅ Change type from cog.File to str
+        style_image_url: str,  # ✅ Change type from cog.File to str
         content_weight: float = 5.0, 
         style_weight: float = 100.0,
         tv_weight: float = 0.001,
         num_iterations: int = 1000,
         init: str = "random",
-        init_image: cog.File = None,
+        init_image: str = None,  # ✅ Change type from cog.File to str
         optimizer: str = "lbfgs",
         learning_rate: float = 10.0,
         normalize_gradients: bool = False
-    ) -> cog.File:
-        """Runs style transfer using the provided images and optimization settings."""
+    ) -> str:  # ✅ Return a string (Replicate URL to the processed image)
+        """Runs style transfer using image URLs."""
         prediction = replicate.run(
-    "artlover51/neural-style-transfer:d6e96fae86152137b993e12acc13832e7c5e351555bd25afb76da86cbf9fc597",  # ✅ Use full version ID
-    input={
-        "content_image": content_image,
-        "style_image": style_image,
-        "content_weight": content_weight,
-        "style_weight": style_weight,
-        "tv_weight": tv_weight,
-        "num_iterations": num_iterations,
-        "init": init,
-        "init_image": init_image if init_image else None,
-        "optimizer": optimizer,
-        "learning_rate": learning_rate,
-        "normalize_gradients": normalize_gradients
-    }
-)
-        return prediction
+            "artlover51/neural-style-transfer:d6e96fae86152137b993e12acc13832e7c5e351555bd25afb76da86cbf9fc597",
+            input={
+                "content_image_url": content_image_url,  # ✅ Pass URLs directly
+                "style_image_url": style_image_url,
+                "content_weight": content_weight,
+                "style_weight": style_weight,
+                "tv_weight": tv_weight,
+                "num_iterations": num_iterations,
+                "init": init,
+                "init_image": init_image,
+                "optimizer": optimizer,
+                "learning_rate": learning_rate,
+                "normalize_gradients": normalize_gradients
+            }
+        )
+        return prediction  # ✅ Replicate returns a URL to the processed image
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
