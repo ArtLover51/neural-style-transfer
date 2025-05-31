@@ -1,22 +1,43 @@
 import replicate
-import cog  # ✅ Import Cog for type hints
+import cog
+import replicate
 
 class Predictor:
     def __init__(self):
-        pass  # ✅ Load model here if needed
+        pass
 
-    def predict(self, content_image_url: str, style_image_url: str) -> cog.File:
-        """Runs the style transfer and returns the generated image."""
+    def predict(
+        self, 
+        content_image: cog.File, 
+        style_image: cog.File, 
+        content_weight: float = 5.0, 
+        style_weight: float = 100.0,
+        tv_weight: float = 0.001,
+        num_iterations: int = 1000,
+        init: str = "random",
+        init_image: cog.File = None,
+        optimizer: str = "lbfgs",
+        learning_rate: float = 10.0,
+        normalize_gradients: bool = False
+    ) -> cog.File:
+        """Runs style transfer using the provided images and optimization settings."""
         prediction = replicate.run(
             "artlover51/neural-style-transfer:latest",
             input={
-                "content_image": content_image_url,
-                "style_image": style_image_url,
-                "image_size": 512,
-                "num_iterations": 1000
+                "content_image": content_image,
+                "style_image": style_image,
+                "content_weight": content_weight,
+                "style_weight": style_weight,
+                "tv_weight": tv_weight,
+                "num_iterations": num_iterations,
+                "init": init,
+                "init_image": init_image,
+                "optimizer": optimizer,
+                "learning_rate": learning_rate,
+                "normalize_gradients": normalize_gradients
             }
         )
-        return prediction  # ✅ Ensures output is a file Replicate can process
+        return prediction
 
 # ✅ Example call with actual URLs (replace dynamically)
 # ✅ Create an instance of the Predictor class

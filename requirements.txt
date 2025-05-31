@@ -1,3 +1,4 @@
+cog
 replicate
 numpy
 pillow
