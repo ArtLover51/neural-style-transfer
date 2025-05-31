@@ -7,24 +7,24 @@ class Predictor:
 
     def predict(
         self, 
-        content_image_url: str,  # ✅ Change type from cog.File to str
-        style_image_url: str,  # ✅ Change type from cog.File to str
+        content_image: cog.File,  # ✅ Change back to cog.File to allow image uploads
+        style_image: cog.File,  # ✅ Change back to cog.File
         content_weight: float = 5.0, 
         style_weight: float = 100.0,
         tv_weight: float = 0.001,
         num_iterations: int = 1000,
         init: str = "random",
-        init_image: str = None,  # ✅ Change type from cog.File to str
+        init_image: cog.File = None,  # ✅ Ensure init_image also supports file uploads
         optimizer: str = "lbfgs",
         learning_rate: float = 10.0,
         normalize_gradients: bool = False
-    ) -> str:  # ✅ Return a string (Replicate URL to the processed image)
-        """Runs style transfer using image URLs."""
+    ) -> cog.File:  # ✅ Ensure output is also treated as a file
+        """Runs style transfer using uploaded image files."""
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:d6e96fae86152137b993e12acc13832e7c5e351555bd25afb76da86cbf9fc597",
+            "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
             input={
-                "content_image_url": content_image_url,  # ✅ Pass URLs directly
-                "style_image_url": style_image_url,
+                "content_image": content_image,  # ✅ Accepts file uploads
+                "style_image": style_image,
                 "content_weight": content_weight,
                 "style_weight": style_weight,
                 "tv_weight": tv_weight,
@@ -36,7 +36,7 @@ class Predictor:
                 "normalize_gradients": normalize_gradients
             }
         )
-        return prediction  # ✅ Replicate returns a URL to the processed image
+        return prediction  # ✅ Returns generated image as a file
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
