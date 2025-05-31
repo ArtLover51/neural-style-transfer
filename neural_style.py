@@ -21,32 +21,32 @@ class Predictor:
     ) -> cog.File:  # ✅ Ensure output is also treated as a file
         """Runs style transfer using uploaded image files."""
         prediction = replicate.run(
-            "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
-            input={
-                "content_image": content_image,  # ✅ Accepts file uploads
-                "style_image": style_image,
-                "content_weight": content_weight,
-                "style_weight": style_weight,
-                "tv_weight": tv_weight,
-                "num_iterations": num_iterations,
-                "init": init,
-                "init_image": init_image,
-                "optimizer": optimizer,
-                "learning_rate": learning_rate,
-                "normalize_gradients": normalize_gradients
-            }
-        )
+    "artlover51/neural-style-transfer:00b87e807a6dfe1105ade6f834720f0c51ea9ed47c5cf75d576001c330065a7d",
+    input={
+        "content_image_url": content_image_url,
+        "style_image_url": style_image_url,
+        "content_weight": content_weight,
+        "style_weight": style_weight,
+        "tv_weight": tv_weight,
+        "num_iterations": num_iterations,
+        "init": init,
+        "init_image": init_image if init_image else "",  # ✅ Pass an empty string instead of None
+        "optimizer": optimizer,
+        "learning_rate": learning_rate,
+        "normalize_gradients": normalize_gradients
+    }
+)
         return prediction  # ✅ Returns generated image as a file
 
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
     predictor = Predictor()
 
-    # ✅ Replace these with actual image URLs
-    content_image_url = "https://your-content-image-url"
-    style_image_url = "https://your-style-image-url"
+    # ✅ Replace placeholders with real URLs
+    content_image_url = "https://your-content-image-url.jpg"
+    style_image_url = "https://your-style-image-url.jpg"
 
-    result = predictor.predict(content_image_url, style_image_url)  # ✅ Pass URLs, not cog.File objects
+    result = predictor.predict(content_image_url, style_image_url)
 
     print("Final Output:", result)
 
