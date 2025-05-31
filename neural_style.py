@@ -48,7 +48,13 @@ class Predictor:
 # ✅ Create an instance of the Predictor class & run a prediction
 if __name__ == "__main__":
     predictor = Predictor()
-    result = predictor.predict("https://your-content-image-url", "https://your-style-image-url")
+
+    # ✅ Replace these with actual image URLs
+    content_image_url = "https://your-content-image-url"
+    style_image_url = "https://your-style-image-url"
+
+    result = predictor.predict(content_image_url, style_image_url)  # ✅ Pass URLs, not cog.File objects
+
     print("Final Output:", result)
 
 # ✅ Define model download parameters
